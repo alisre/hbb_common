@@ -192,14 +192,24 @@ const CHARS: &[char] = &[
 pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];
 pub const RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";
 
-//自定义RENDEZVOUS_PORT端口
-const DEFAULT_RENDEZVOUS_PORT: i32 = 21116;
-pub const RENDEZVOUS_PORT: i32 = match option_env!("RENDEZVOUS_PORT") {
-    Some(port) => match port.parse::<i32>() {
-        Ok(p) if p > 0 && p <= 65535 => p,
-        _ => DEFAULT_RENDEZVOUS_PORT,
-    },
-    None => DEFAULT_RENDEZVOUS_PORT,
+// pub const RENDEZVOUS_PORT: i32 = 21116;
+const DEFAULT_RENDEZVOUS_PORT: u16 = 21116;
+
+// 使用环境变量设置端口（编译时获取）
+pub const RENDEZVOUS_PORT: u16 = {
+    let port_str = option_env!("RENDEZVOUS_PORT");
+    
+    if let Some(port_str) = port_str {
+        if let Ok(port) = port_str.parse::<u16>() {
+            port
+        } else {
+            #[deny(unused_variables)]
+            const _WARNING: &str = "Invalid RENDEZVOUS_PORT value, using default";
+            DEFAULT_RENDEZVOUS_PORT
+        }
+    } else {
+        DEFAULT_RENDEZVOUS_PORT
+    }
 };
 pub const RELAY_PORT: i32 = 21117;
 pub const WS_RENDEZVOUS_PORT: i32 = 21118;
