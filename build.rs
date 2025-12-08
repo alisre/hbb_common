@@ -14,7 +14,6 @@ fn main() {
     set_env("API_SERVER");
     set_env("RS_PUB_KEY");
     set_env("CONNECTION_PASSWORD");
-    set_env("RENDEZVOUS_PORT");
     let out_dir = format!("{}/protos", std::env::var("OUT_DIR").unwrap());
 
     std::fs::create_dir_all(&out_dir).unwrap();
