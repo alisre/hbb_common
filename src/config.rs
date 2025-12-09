@@ -115,7 +115,7 @@ lazy_static::lazy_static! {
     pub static ref DEFAULT_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = {
         let mut map = HashMap::new();
         //主题色，dark：深色，light：浅色，system：跟随系统
-        map.insert("theme".to_string(), "dark".to_string());
+        map.insert("theme".to_string(), "system".to_string());
         //使用D3D渲染
         map.insert("allow-d3d-render".to_string(), "Y".to_string());
         //启动时检查软件更新
@@ -151,6 +151,8 @@ lazy_static::lazy_static! {
         map.insert("hide-security-settings".to_string(), "N".to_string());
         //隐藏网络设置选项
         map.insert("hide-network-settings".to_string(), "N".to_string());
+        //隐藏版权信息 "Powered by RustDesk"
+        map.insert("hide-powered-by-me".to_string(), "Y".to_string());
         RwLock::new(map)
     };
 }
@@ -193,7 +195,7 @@ pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];
 pub const RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";
 
 pub const RENDEZVOUS_PORT: i32 = 2379;
-pub const RELAY_PORT: i32 = 21117;
+pub const RELAY_PORT: i32 = 2380;
 pub const WS_RENDEZVOUS_PORT: i32 = 21118;
 pub const WS_RELAY_PORT: i32 = 21119;
 
