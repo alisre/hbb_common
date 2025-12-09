@@ -133,14 +133,15 @@ lazy_static::lazy_static! {
         RwLock::new(map)
     };
     pub static ref OVERWRITE_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
-    pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+    // pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+    //默认连接密码，请求控制的时候要求输入的密码，读取Repository secrets值
+    pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = {
+        let mut map = HashMap::new();
+        map.insert("password".to_string(), option_env!("CONNECTION_PASSWORD").unwrap_or("").to_string());
+        RwLock::new(map)
+    };
     pub static ref BUILTIN_SETTINGS: RwLock<HashMap<String, String>> = {
         let mut map = HashMap::new();
-        //默认连接密码，请求控制的时候要求输入的密码，读取Repository secrets值
-        map.insert(
-            "default-connect-password".to_string(), 
-            option_env!("CONNECTION_PASSWORD").unwrap_or("").into()
-        );
         //隐藏远程打印设置选项
         map.insert("hide-remote-printer-settings".to_string(), "N".to_string());
         //隐藏代理设置选项
