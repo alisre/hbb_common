@@ -1,6 +1,7 @@
 //增加配置环境变量到编译环境的功能
 use std::env;
 fn set_env(key: &str) {
+    println!("cargo:rerun-if-env-changed={key}");
     if let Some(val_os) = env::var_os(key) {
         if let Some(val) = val_os.to_str() {
             println!("cargo:rustc-env={}={}", key, val);
